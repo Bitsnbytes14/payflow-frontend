@@ -10,14 +10,12 @@ export default function Modal({
   size = 'md',
   closeOnOutsideClick = true,
 }) {
-  // Handle body scroll lock
   useEffect(() => {
     if (open) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
-  // Handle ESC key
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
@@ -40,34 +38,33 @@ export default function Modal({
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
     >
-      {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60"
+        style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(3px)' }}
         onClick={closeOnOutsideClick ? onClose : undefined}
       />
 
-      {/* Modal Content */}
       <div
         className={clsx(
-          'relative bg-surface-card border border-surface-border',
-          'rounded-2xl w-full p-6 animate-slide-up shadow-2xl',
+          'relative surface rounded-xl w-full p-6 shadow-lg animate-fade-in',
           sizes[size]
         )}
+        style={{ zIndex: 1000 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <h2 className="text-lg font-semibold text-main">{title}</h2>
           <button
             onClick={onClose}
-            className="text-surface-muted hover:text-white transition-colors p-1 rounded-lg hover:bg-surface-border"
+            className="text-muted hover:text-main transition-colors p-1 rounded-md"
+            style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer', display: 'flex' }}
           >
             <X size={18} />
           </button>
         </div>
 
-        {/* Body */}
         {children}
       </div>
     </div>

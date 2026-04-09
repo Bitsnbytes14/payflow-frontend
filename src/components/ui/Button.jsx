@@ -1,16 +1,16 @@
 import clsx from 'clsx';
 
 const variants = {
-  primary:   'bg-brand-500 hover:bg-brand-600 text-white shadow-lg shadow-brand-500/20',
-  secondary: 'bg-surface-card hover:bg-surface-border text-white border border-surface-border',
-  danger:    'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20',
-  ghost:     'hover:bg-surface-card text-surface-muted hover:text-white',
+  primary:   'btn-primary',
+  secondary: 'btn-secondary',
+  danger:    'btn-danger',
+  ghost:     'btn-ghost',
 };
 
 const sizes = {
-  sm: 'px-3 py-1.5 text-xs',
-  md: 'px-4 py-2 text-sm',
-  lg: 'px-6 py-3 text-base',
+  sm: 'btn-sm',
+  md: 'btn-md',
+  lg: 'btn-lg',
 };
 
 export default function Button({
@@ -26,11 +26,10 @@ export default function Button({
     <button
       type="button"
       className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium',
-        'transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed',
+        'btn',
         variants[variant],
         sizes[size],
-        fullWidth && 'w-full',
+        fullWidth && 'w-full justify-center',
         className
       )}
       disabled={loading || props.disabled}
@@ -38,7 +37,7 @@ export default function Button({
       {...props}
     >
       {loading && (
-        <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
           <circle
             className="opacity-25"
             cx="12"

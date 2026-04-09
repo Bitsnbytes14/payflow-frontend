@@ -9,7 +9,7 @@ export default function Card({
 }) {
   const paddings = {
     none: '',
-    sm: 'p-3',
+    sm: 'p-4',
     default: 'p-6',
     lg: 'p-8',
   };
@@ -18,11 +18,9 @@ export default function Card({
     <div
       onClick={onClick}
       className={clsx(
-        'bg-surface-card border border-surface-border rounded-xl',
-        'shadow-sm',
-        'animate-fade-in',
+        'surface',
         paddings[padding],
-        hover && 'hover:border-brand-500/40 hover:shadow-md transition-all duration-200 cursor-pointer',
+        hover && 'surface-hover cursor-pointer',
         onClick && 'cursor-pointer',
         className
       )}

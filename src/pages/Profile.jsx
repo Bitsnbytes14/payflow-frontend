@@ -5,7 +5,7 @@ import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { User, Webhook } from 'lucide-react';
+import { User, Webhook, AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function Profile() {
   const { merchant } = useAuth();
@@ -15,14 +15,12 @@ export default function Profile() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  // ✅ Prefill webhook
   useEffect(() => {
     if (merchant?.webhookUrl) {
       setWebhookUrl(merchant.webhookUrl);
     }
   }, [merchant]);
 
-  // ✅ Validate URL
   const isValidUrl = (url) => {
     try {
       new URL(url);
@@ -65,36 +63,36 @@ export default function Profile() {
 
   return (
     <Layout>
-      <div className="max-w-lg space-y-6 animate-slide-up">
+      <div className="max-w-lg space-y-6 animate-slide-up mt-4">
 
         {/* Merchant info */}
         <Card>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 bg-brand-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">
+          <div className="flex items-center gap-5 mb-8">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-3xl font-extrabold shadow-md" style={{ backgroundColor: 'var(--primary)' }}>
               {merchant?.name?.[0]?.toUpperCase() || 'U'}
             </div>
 
             <div>
-              <h2 className="text-lg font-semibold text-white">
+              <h2 className="text-xl font-bold text-main tracking-tight">
                 {merchant?.name || 'User'}
               </h2>
-              <p className="text-sm text-surface-muted">
+              <p className="text-sm font-medium text-muted mt-1">
                 {merchant?.email || 'No email'}
               </p>
             </div>
           </div>
 
-          <div className="space-y-3 bg-surface-DEFAULT rounded-xl p-4 border border-surface-border">
+          <div className="space-y-4 surface p-5 rounded-2xl shadow-sm">
             {[
-              ['Merchant ID', <span className="font-mono text-xs">{merchant?.id || '—'}</span>],
-              ['Email', merchant?.email || '—'],
-              ['Account', 'Active'],
-            ].map(([label, val]) => (
-              <div key={label} className="flex justify-between items-center text-sm">
-                <span className="text-surface-muted flex items-center gap-2">
-                  <User size={13} /> {label}
+              ['Merchant ID', <span className="font-mono text-xs font-semibold px-2 py-1 bg-surface-hover rounded">{merchant?.id || '—'}</span>],
+              ['Email', <span className="font-medium">{merchant?.email || '—'}</span>],
+              ['Account', <span className="text-success font-bold flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-success"></div> Active</span>],
+            ].map(([label, val], i) => (
+              <div key={label} className={`flex justify-between items-center text-sm ${i !== 0 ? 'pt-4 border-t' : ''}`} style={{ borderColor: 'var(--border-color)' }}>
+                <span className="text-muted font-medium flex items-center gap-2">
+                  <User size={14} className="text-muted" /> {label}
                 </span>
-                <span className="text-white">{val}</span>
+                <span className="text-main">{val}</span>
               </div>
             ))}
           </div>
@@ -102,44 +100,50 @@ export default function Profile() {
 
         {/* Webhook settings */}
         <Card>
-          <div className="flex items-center gap-2 mb-5">
-            <Webhook size={16} className="text-brand-400" />
-            <h3 className="text-base font-semibold text-white">
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="p-2 rounded-xl" style={{ backgroundColor: 'var(--bg-color)' }}>
+              <Webhook size={18} className="text-primary" />
+            </div>
+            <h3 className="text-lg font-bold text-main tracking-tight">
               Webhook Settings
             </h3>
           </div>
 
-          <p className="text-sm text-surface-muted mb-4">
-            PayFlow will POST payment events to this URL with exponential backoff retry.
+          <p className="text-sm font-medium text-muted mb-6 leading-relaxed">
+            PayFlow will POST payment events to this URL with exponential backoff retry. Ensure your endpoint can handle duplicate events.
           </p>
 
           {success && (
-            <div className="bg-green-500/10 border border-green-500/20 text-green-400 text-sm rounded-lg px-4 py-3 mb-4">
-              Webhook URL updated successfully
+            <div className="flex items-center gap-2.5 bg-success-bg border border-success text-success text-sm font-medium rounded-xl px-4 py-3 mb-6">
+              <CheckCircle size={18} /> Webhook URL updated successfully
             </div>
           )}
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg px-4 py-3 mb-4">
-              {error}
+            <div className="flex items-center gap-2.5 bg-error-bg border border-error text-error text-sm font-medium rounded-xl px-4 py-3 mb-6">
+              <AlertCircle size={18} /> {error}
             </div>
           )}
 
-          <form onSubmit={handleUpdate} className="space-y-4">
+          <form onSubmit={handleUpdate} className="space-y-5">
             <Input
-              label="Webhook URL"
+              label="Endpoint URL"
               placeholder="https://your-server.com/webhook"
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
             />
 
-            <Button
-              type="submit"
-              loading={loading}
-              disabled={!isValid}
-            >
-              Update Webhook
-            </Button>
+            <div className="pt-2">
+              <Button
+                type="submit"
+                loading={loading}
+                disabled={!isValid}
+                fullWidth
+                size="lg"
+              >
+                Save Changes
+              </Button>
+            </div>
           </form>
         </Card>
 

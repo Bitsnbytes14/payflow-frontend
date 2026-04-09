@@ -6,6 +6,7 @@ import Button from '../components/ui/Button';
 
 import { createOrder } from '../api/orders';
 import { processPayment, refundPayment } from '../api/payments';
+import { AlertCircle } from 'lucide-react';
 
 export default function NewPayment() {
   const [form, setForm] = useState({
@@ -89,18 +90,20 @@ export default function NewPayment() {
 
   return (
     <Layout>
-      <div className="max-w-xl mx-auto space-y-6">
+      <div className="max-w-xl mx-auto space-y-6 animate-fade-in mt-6">
 
         <Card>
-          <h2 className="text-white text-lg font-semibold mb-4">
+          <h2 className="text-main text-xl font-bold tracking-tight mb-6">
             Create Payment
           </h2>
 
           {error && (
-            <div className="text-red-400 text-sm mb-3">{error}</div>
+            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-error-bg text-error border border-error mb-6 text-sm font-medium">
+              <AlertCircle size={16} /> {error}
+            </div>
           )}
 
-          <form onSubmit={handleProcess} className="space-y-4">
+          <form onSubmit={handleProcess} className="space-y-5">
             <Input
               label="Amount"
               type="number"
@@ -110,22 +113,25 @@ export default function NewPayment() {
 
             <Input
               label="Customer Email"
+              type="email"
               value={form.customerEmail}
               onChange={(e) => handleChange('customerEmail', e.target.value)}
             />
 
-            <Button type="submit" loading={loading} className="w-full">
-              Pay Now
-            </Button>
+            <div className="pt-2">
+              <Button type="submit" loading={loading} fullWidth size="lg">
+                Pay Now
+              </Button>
+            </div>
           </form>
         </Card>
 
         {result && (
           <Card>
-            <h3 className="text-white font-semibold mb-2">
+            <h3 className="text-main text-lg font-bold tracking-tight mb-4">
               Payment Result
             </h3>
-            <pre className="text-sm text-green-400">
+            <pre className="text-sm font-mono text-success bg-success-bg border border-success p-4 rounded-xl overflow-x-auto whitespace-pre-wrap">
               {JSON.stringify(result, null, 2)}
             </pre>
 
@@ -133,7 +139,8 @@ export default function NewPayment() {
               variant="danger"
               onClick={handleRefund}
               loading={loading}
-              className="mt-4"
+              className="mt-6"
+              size="lg"
             >
               Refund Payment
             </Button>

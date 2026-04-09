@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     listOrders({ limit: 50 })
-      .then((res) => setOrders(res.orders || [])) // ✅ FIXED
+      .then((res) => setOrders(res.orders || []))
       .catch(() => setError('Failed to load dashboard data'))
       .finally(() => setLoading(false));
   }, []);
@@ -25,7 +25,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <Layout>
-        <p className="text-red-400 text-center py-10">{error}</p>
+        <p className="text-error text-center py-10 font-medium">{error}</p>
       </Layout>
     );
   }
@@ -47,10 +47,9 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="space-y-6 animate-fade-in">
-
         {/* Empty state */}
         {safeOrders.length === 0 && (
-          <p className="text-surface-muted text-center">
+          <p className="text-muted text-center py-10 font-medium">
             No data yet. Create your first payment 🚀
           </p>
         )}

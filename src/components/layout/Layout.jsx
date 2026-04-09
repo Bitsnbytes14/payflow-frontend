@@ -4,12 +4,14 @@ import Topbar  from './Topbar';
 
 export default function Layout() {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#0b1120' }}>
+    <div className="flex h-full w-full" style={{ minHeight: '100vh' }}>
       <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="flex-1 flex flex-col" style={{ overflow: 'hidden' }}>
         <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', padding: '1.5rem 2rem' }}>
-          <Outlet />
+        <main className="flex-1 p-6" style={{ overflowY: 'auto' }}>
+          <div className="max-w-6xl mx-auto w-full">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

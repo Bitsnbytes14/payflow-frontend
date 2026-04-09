@@ -10,11 +10,13 @@ export default function StatsCard({
   trend,
 }) {
   const colors = {
-    blue:   'text-blue-400 bg-blue-500/10',
-    green:  'text-green-400 bg-green-500/10',
-    yellow: 'text-yellow-400 bg-yellow-500/10',
-    red:    'text-red-400 bg-red-500/10',
+    blue:   { color: 'var(--primary)', bg: 'rgba(59, 130, 246, 0.1)' },
+    green:  { color: 'var(--success)', bg: 'var(--success-bg)' },
+    yellow: { color: 'var(--warning)', bg: 'var(--warning-bg)' },
+    red:    { color: 'var(--error)', bg: 'var(--error-bg)' },
   };
+
+  const selectedColor = colors[color] || colors.blue;
 
   const formatValue = (val) => {
     if (typeof val !== 'number') return val;
@@ -24,26 +26,22 @@ export default function StatsCard({
   };
 
   return (
-    <Card hover className="transition-transform duration-200 hover:scale-[1.02]">
+    <Card hover className="transition-transform">
       <div className="flex items-start justify-between">
-        
         {/* Left */}
         <div>
-          <p className="text-sm text-surface-muted">{title}</p>
-
-          <p className="text-2xl font-bold text-white mt-1">
+          <p className="text-sm text-muted font-medium tracking-wide">{title}</p>
+          <p className="text-3xl font-bold text-main mt-2 tracking-tight">
             {formatValue(value)}
           </p>
-
           {subtitle && (
-            <p className="text-xs text-surface-muted mt-1">{subtitle}</p>
+            <p className="text-xs text-muted mt-2 font-medium">{subtitle}</p>
           )}
-
           {trend && (
             <p
               className={clsx(
-                'text-xs mt-1 font-medium',
-                trend > 0 ? 'text-green-400' : 'text-red-400'
+                'text-xs mt-2 font-semibold',
+                trend > 0 ? 'text-success' : 'text-error'
               )}
             >
               {trend > 0 ? '+' : ''}
@@ -54,12 +52,16 @@ export default function StatsCard({
 
         {/* Right Icon */}
         <div
-          className={clsx(
-            'w-10 h-10 rounded-xl flex items-center justify-center',
-            colors[color] || colors.blue
-          )}
+          className="flex items-center justify-center rounded-xl"
+          style={{
+            width: '44px',
+            height: '44px',
+            backgroundColor: selectedColor.bg,
+            color: selectedColor.color,
+            boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
+          }}
         >
-          {Icon && <Icon size={18} />}
+          {Icon && <Icon size={22} />}
         </div>
       </div>
     </Card>

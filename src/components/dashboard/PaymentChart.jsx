@@ -7,13 +7,12 @@ import Card from '../ui/Card';
 // Tooltip
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-
   const value = payload[0].value || 0;
 
   return (
-    <div className="bg-surface-card border border-surface-border rounded-lg px-3 py-2 shadow-md">
-      <p className="text-xs text-surface-muted">{label}</p>
-      <p className="text-sm font-semibold text-white">
+    <div className="surface p-3" style={{ boxShadow: 'var(--shadow-md)' }}>
+      <p className="text-xs text-muted mb-1">{label}</p>
+      <p className="text-sm font-bold text-main">
         ₹{value.toLocaleString()}
       </p>
     </div>
@@ -34,7 +33,6 @@ export default function PaymentChart({ orders = [] }) {
       });
 
       const amount = Number(order.amount) || 0;
-
       const existing = acc.find(d => d.date === date);
 
       if (existing) {
@@ -51,37 +49,39 @@ export default function PaymentChart({ orders = [] }) {
 
   return (
     <Card>
-      <h3 className="text-base font-semibold text-white mb-4">
+      <h3 className="text-lg font-bold text-main mb-6 tracking-tight">
         Payment Volume
       </h3>
 
       {data.length === 0 ? (
-        <p className="text-surface-muted text-sm text-center py-10">
+        <p className="text-muted text-sm text-center py-10">
           No payment data available yet.
         </p>
       ) : (
-        <ResponsiveContainer width="100%" height={180}>
+        <ResponsiveContainer width="100%" height={240}>
           <AreaChart data={data}>
             <defs>
               <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false} />
 
             <XAxis
               dataKey="date"
-              tick={{ fill: '#64748b', fontSize: 11 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
               axisLine={false}
               tickLine={false}
+              dy={10}
             />
 
             <YAxis
-              tick={{ fill: '#64748b', fontSize: 11 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
               axisLine={false}
               tickLine={false}
+              dx={-10}
               tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
             />
 
@@ -90,9 +90,10 @@ export default function PaymentChart({ orders = [] }) {
             <Area
               type="monotone"
               dataKey="amount"
-              stroke="#0ea5e9"
-              strokeWidth={2}
+              stroke="var(--primary)"
+              strokeWidth={3}
               fill="url(#colorAmount)"
+              activeDot={{ r: 6, fill: "var(--primary)", stroke: "#fff", strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

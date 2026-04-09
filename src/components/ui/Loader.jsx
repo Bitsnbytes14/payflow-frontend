@@ -7,28 +7,34 @@ export default function Loader({
   className
 }) {
   const sizes = {
-    sm: 'w-4 h-4 border-2',
-    md: 'w-8 h-8 border-2',
-    lg: 'w-12 h-12 border-4',
+    sm: '1rem',
+    md: '2rem',
+    lg: '3rem',
   };
+  const borderSizes = {
+    sm: '2px', md: '2px', lg: '4px'
+  }
 
   return (
     <div
       role="status"
       className={clsx(
-        'flex flex-col items-center justify-center gap-3',
-        fullScreen ? 'h-screen' : 'py-20',
+        'flex flex-col items-center justify-center gap-4',
+        fullScreen ? 'h-screen' : 'py-10',
         className
       )}
     >
       <div
-        className={clsx(
-          'border-brand-500/30 border-t-brand-500 rounded-full animate-spin',
-          sizes[size]
-        )}
+        className="animate-spin rounded-full inline-block"
+        style={{
+           width: sizes[size],
+           height: sizes[size],
+           border: `${borderSizes[size]} solid rgba(59, 130, 246, 0.3)`,
+           borderTopColor: '#3b82f6'
+        }}
       />
       {text && (
-        <p className="text-sm text-surface-muted">{text}</p>
+        <p className="text-sm text-muted">{text}</p>
       )}
     </div>
   );

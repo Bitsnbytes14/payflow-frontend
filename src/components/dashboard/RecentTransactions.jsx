@@ -5,14 +5,13 @@ import { formatCurrency, formatDate, truncateId } from '../../utils/formatters';
 export default function RecentTransactions({ orders = [] }) {
   return (
     <Card>
-      
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-semibold text-white">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-bold text-main tracking-tight">
           Recent Orders
         </h3>
         {orders.length > 0 && (
-          <button className="text-xs text-brand-400 hover:text-brand-300 transition">
+          <button className="text-sm font-semibold text-primary hover:text-primary-hover transition-colors bg-transparent border-none cursor-pointer">
             View All
           </button>
         )}
@@ -20,11 +19,11 @@ export default function RecentTransactions({ orders = [] }) {
 
       {/* Empty state */}
       {orders.length === 0 ? (
-        <p className="text-surface-muted text-sm text-center py-8">
+        <p className="text-muted text-sm text-center py-8">
           No orders yet. Create your first payment.
         </p>
       ) : (
-        <div className="space-y-3">
+        <div className="flex flex-col gap-2">
           {orders.slice(0, 8).map((order) => {
             const id = order?.id || 'N/A';
             const date = order?.created_at
@@ -37,35 +36,34 @@ export default function RecentTransactions({ orders = [] }) {
             return (
               <div
                 key={id}
-                className="flex items-center justify-between py-2.5 px-3 rounded-lg
-                           hover:bg-surface-DEFAULT transition-all duration-150"
+                className="flex items-center justify-between py-3 px-4 rounded-xl transition-colors hover:bg-surface-hover"
+                style={{ cursor: 'pointer' }}
               >
                 {/* Left */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <div
-                    className="w-8 h-8 bg-surface-DEFAULT rounded-lg flex items-center
-                               justify-center text-xs font-mono text-surface-muted border
-                               border-surface-border uppercase"
+                    className="flex items-center justify-center text-xs font-bold text-muted uppercase rounded-lg"
+                    style={{ width: '36px', height: '36px', backgroundColor: 'var(--bg-color)', border: '1px solid var(--border-color)' }}
                   >
                     {method[0]}
                   </div>
 
                   <div>
-                    <p className="text-sm font-medium text-white font-mono">
+                    <p className="text-sm tracking-tight font-semibold text-main">
                       #{truncateId(id)}
                     </p>
-                    <p className="text-xs text-surface-muted">
+                    <p className="text-xs text-muted mt-1 font-medium tracking-wide">
                       {date}
                     </p>
                   </div>
                 </div>
 
                 {/* Right */}
-                <div className="flex items-center gap-3">
-                  <Badge status={order?.status || 'CREATED'} />
-                  <span className="text-sm font-semibold text-white">
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-sm font-bold text-main">
                     {formatCurrency(amount, currency)}
                   </span>
+                  <Badge status={order?.status || 'CREATED'} />
                 </div>
               </div>
             );
