@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { login as apiLogin, register as apiRegister } from '../api/auth';
 
-const AuthContext = createContext(null);
+// ← was createContext(null) — null causes crash when useAuth() is called
+//   before the provider mounts. Empty object is safe.
+const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [merchant, setMerchant] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading]   = useState(true);
 
   useEffect(() => {
     const stored = localStorage.getItem('payflow_merchant');
@@ -21,20 +23,16 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const { merchant, token } = await apiLogin({ email, password });
-
     localStorage.setItem('payflow_token', token);
     localStorage.setItem('payflow_merchant', JSON.stringify(merchant));
-
     setMerchant(merchant);
     return merchant;
   };
 
   const register = async (data) => {
     const { merchant, token } = await apiRegister(data);
-
     localStorage.setItem('payflow_token', token);
     localStorage.setItem('payflow_merchant', JSON.stringify(merchant));
-
     setMerchant(merchant);
     return merchant;
   };
