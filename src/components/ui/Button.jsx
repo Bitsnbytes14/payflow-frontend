@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 
 const variants = {
-  primary:   'bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-lg hover:-translate-y-[1px]',
+  primary: 'bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-lg hover:-translate-y-[1px]',
   secondary: 'bg-surface text-main border border-border-color hover:bg-surface-hover hover:border-primary/50',
-  danger:    'bg-error-bg text-error border border-error/20 hover:bg-error/20',
-  ghost:     'bg-transparent text-muted hover:text-main hover:bg-surface',
+  danger: 'bg-error-bg text-error border border-error/20 hover:bg-error/20',
+  ghost: 'bg-transparent text-muted hover:text-main hover:bg-surface',
 };
 
 const sizes = {
@@ -20,11 +20,12 @@ export default function Button({
   loading = false,
   fullWidth = false,
   className,
+  type = 'button', // ✅ allow override
   ...props
 }) {
   return (
     <button
-      type="button"
+      type={type} // ✅ critical fix
       className={clsx(
         'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all border border-transparent outline-none disabled:opacity-50 disabled:cursor-not-allowed',
         variants[variant],
@@ -53,6 +54,7 @@ export default function Button({
           />
         </svg>
       )}
+
       {children}
     </button>
   );
