@@ -18,26 +18,18 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="flex flex-col"
-      style={{
-        width: '260px',
-        backgroundColor: 'var(--surface-color)',
-        borderRight: '1px solid var(--border-color)',
-        height: '100vh',
-        position: 'sticky',
-        top: 0
-      }}
+      className="flex flex-col bg-surface border-r border-border-color h-screen sticky top-0 w-[260px]"
     >
       {/* Logo */}
       <div className="p-6 border-b flex items-center gap-3">
-        <div className="flex items-center justify-center rounded-lg" style={{ width: '32px', height: '32px', backgroundColor: 'var(--primary)' }}>
+        <div className="flex items-center justify-center rounded-lg bg-primary w-8 h-8">
           <Zap size={16} className="text-white" />
         </div>
         <span className="text-white font-bold text-lg tracking-tight">PayFlow</span>
       </div>
 
       {/* Merchant info */}
-      <div className="mx-4 mt-6 p-4 rounded-xl border" style={{ backgroundColor: 'var(--bg-color)' }}>
+      <div className="mx-4 mt-6 p-4 rounded-xl border border-border-color bg-bg-base">
         <p className="text-xs text-muted mb-1 uppercase tracking-wider font-semibold">Account</p>
         <p className="text-sm font-medium text-main truncate">
           {merchant?.name || 'Guest'}
@@ -58,10 +50,9 @@ export default function Sidebar() {
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-primary border border-primary text-white shadow-md'
-                  : 'text-muted hover:text-white hover:bg-surface-hover'
+                  : 'text-muted hover:text-white hover:bg-surface-hover border border-transparent'
               }`
             }
-            style={({ isActive }) => (isActive ? { backgroundColor: 'var(--primary)' } : {})}
           >
             <Icon size={18} />
             {label}
@@ -73,10 +64,7 @@ export default function Sidebar() {
       <div className="p-4 border-t">
         <button
           onClick={logout}
-          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-muted hover:text-error transition-colors"
-          style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
-          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--error-bg)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
+          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-muted hover:text-error hover:bg-error-bg transition-colors"
         >
           <LogOut size={18} />
           Sign Out

@@ -18,9 +18,9 @@ export default function Card({
     <div
       onClick={onClick}
       className={clsx(
-        'surface',
+        'bg-surface border border-border-color rounded-xl shadow-md',
         paddings[padding],
-        hover && 'surface-hover cursor-pointer',
+        hover && 'hover:bg-surface-hover hover:border-primary/50 hover:-translate-y-0.5 transition-all cursor-pointer shadow-lg',
         onClick && 'cursor-pointer',
         className
       )}

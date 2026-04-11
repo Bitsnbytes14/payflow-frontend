@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { updateWebhook } from '../api/auth';
-import Layout from '../components/layout/Layout';
+
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
@@ -62,7 +62,7 @@ export default function Profile() {
   };
 
   return (
-    <Layout>
+    <>
       <div className="max-w-lg space-y-6 animate-slide-up mt-4">
 
         {/* Merchant info */}
@@ -148,6 +148,6 @@ export default function Profile() {
         </Card>
 
       </div>
-    </Layout>
+    </>
   );
 }

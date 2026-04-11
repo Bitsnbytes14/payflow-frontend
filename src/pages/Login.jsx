@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Zap, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/ui/Button';
@@ -21,8 +22,7 @@ function InputField({ label, icon: Icon, type: baseType = 'text', placeholder, v
           type={type} placeholder={placeholder} value={value}
           onChange={onChange} autoComplete={autoComplete}
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          className={`input-field surface-input w-full pl-10 ${isPass ? 'pr-10' : 'pr-4'} py-3`}
-          style={{ paddingLeft: '2.5rem', paddingRight: isPass ? '2.5rem' : '1rem' }}
+          className={`bg-bg-base border border-border-color rounded-lg text-sm text-main transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 w-full pl-10 ${isPass ? 'pr-10' : 'pr-4'} py-3`}
         />
         {isPass && (
           <button type="button" onClick={() => setShow(s => !s)}
@@ -52,9 +52,12 @@ export default function Login() {
     setLoading(true);
     try {
       await login(form.email, form.password);
+      toast.success('Successfully logged in!');
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Invalid email or password.');
+      const msg = err.response?.data?.error || err.message || 'Invalid email or password.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -75,7 +78,7 @@ export default function Login() {
           <p className="text-muted font-medium">Sign in to your PayFlow account</p>
         </div>
 
-        <div className="surface p-8 shadow-xl">
+        <div className="bg-surface border border-border-color rounded-xl p-8 shadow-xl">
           {error && (
             <div className="flex items-center gap-2 mb-6 p-3 rounded-lg text-sm bg-error-bg text-error border border-error">
               <AlertCircle size={16} /> {error}

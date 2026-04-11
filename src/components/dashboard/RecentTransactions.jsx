@@ -42,8 +42,7 @@ export default function RecentTransactions({ orders = [] }) {
                 {/* Left */}
                 <div className="flex items-center gap-4">
                   <div
-                    className="flex items-center justify-center text-xs font-bold text-muted uppercase rounded-lg"
-                    style={{ width: '36px', height: '36px', backgroundColor: 'var(--bg-color)', border: '1px solid var(--border-color)' }}
+                    className="flex items-center justify-center text-xs font-bold text-muted uppercase rounded-lg w-9 h-9 bg-bg-base border border-border-color"
                   >
                     {method[0]}
                   </div>

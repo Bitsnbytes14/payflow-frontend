@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { useAuth } from './context/AuthContext';
 
 import Layout     from './components/layout/Layout';
@@ -24,7 +25,9 @@ function PrivateRoute({ children }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <>
+      <Toaster position="bottom-right" />
+      <BrowserRouter>
       <Routes>
         {/* ── Public / auth routes — NO sidebar layout ── */}
         <Route path="/"         element={<Landing />} />
@@ -44,5 +47,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </>
   );
 }

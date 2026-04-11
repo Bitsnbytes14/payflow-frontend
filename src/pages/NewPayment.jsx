@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Layout from '../components/layout/Layout';
+import toast from 'react-hot-toast';
+
 import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
@@ -60,11 +61,9 @@ export default function NewPayment() {
       setStep(2);
 
     } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-        err?.message ||
-        'Payment failed'
-      );
+      const msg = err?.response?.data?.message || err?.message || 'Payment failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -78,18 +77,16 @@ export default function NewPayment() {
       const res = await refundPayment(order.id);
       setResult(res);
     } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-        err?.message ||
-        'Refund failed'
-      );
+      const msg = err?.response?.data?.message || err?.message || 'Refund failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Layout>
+    <>
       <div className="max-w-xl mx-auto space-y-6 animate-fade-in mt-6">
 
         <Card>
@@ -148,6 +145,6 @@ export default function NewPayment() {
         )}
 
       </div>
-    </Layout>
+    </>
   );
 }

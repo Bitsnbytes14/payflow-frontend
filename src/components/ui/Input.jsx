@@ -28,8 +28,8 @@ export default function Input({
         type={type}
         aria-invalid={!!error}
         className={clsx(
-          'surface-input input-field',
-          error && 'input-error',
+          'bg-bg-base border border-border-color rounded-lg px-4 py-2.5 text-sm text-main transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 w-full',
+          error && 'border-error ring-2 ring-error/20',
           className
         )}
         {...props}

@@ -10,7 +10,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   const value = payload[0].value || 0;
 
   return (
-    <div className="surface p-3" style={{ boxShadow: 'var(--shadow-md)' }}>
+    <div className="bg-surface border border-border-color p-3 rounded-lg shadow-md">
       <p className="text-xs text-muted mb-1">{label}</p>
       <p className="text-sm font-bold text-main">
         ₹{value.toLocaleString()}

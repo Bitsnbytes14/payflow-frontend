@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Zap, User, Mail, Lock, Link2, Eye, EyeOff, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/ui/Button';
@@ -34,8 +35,7 @@ function InputField({ label, icon: Icon, type: baseType = 'text', placeholder, v
           type={type} placeholder={placeholder} value={value}
           onChange={onChange} autoComplete={autoComplete}
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          className={`input-field surface-input w-full pl-10 ${isPass ? 'pr-10' : 'pr-4'} py-3`}
-          style={{ paddingLeft: '2.5rem', paddingRight: isPass ? '2.5rem' : '1rem' }}
+          className={`bg-bg-base border border-border-color rounded-lg text-sm text-main transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 w-full pl-10 ${isPass ? 'pr-10' : 'pr-4'} py-3`}
         />
         {isPass && (
           <button type="button" onClick={() => setShow(s => !s)}
@@ -74,9 +74,12 @@ export default function Register() {
         password:   form.password,
         webhookUrl: form.webhookUrl || undefined,
       });
+      toast.success('Account created successfully!');
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Registration failed.');
+      const msg = err.response?.data?.error || err.message || 'Registration failed.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -97,7 +100,7 @@ export default function Register() {
           <p className="text-muted font-medium">Set up your merchant profile</p>
         </div>
 
-        <div className="surface p-8 shadow-xl">
+        <div className="bg-surface border border-border-color rounded-xl p-8 shadow-xl">
           {error && (
             <div className="flex items-center gap-2 mb-6 p-3 rounded-lg text-sm bg-error-bg text-error border border-error">
               <AlertCircle size={16} /> {error}
@@ -122,7 +125,7 @@ export default function Register() {
 
             <InputField label="Webhook URL (optional)" icon={Link2} placeholder="https://your-server.com/webhooks" value={form.webhookUrl} onChange={set('webhookUrl')} hint="PayFlow will POST payment events to this URL" />
 
-            <div className="surface p-4 mb-6" style={{ backgroundColor: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.1)' }}>
+            <div className="bg-primary/5 border border-primary/10 rounded-xl p-4 mb-6">
               {['No setup fees during beta', 'Full API access from day one', 'Cancel or delete anytime'].map((t, i, a) => (
                 <div key={t} className={`flex items-center gap-2 text-sm text-muted ${i < a.length - 1 ? 'mb-2' : ''}`}>
                   <CheckCircle size={14} className="text-primary flex-shrink-0" /> {t}

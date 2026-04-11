@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { listOrders } from '../api/orders';
 import { getWebhookLogs, retryWebhook } from '../api/webhooks';
-import Layout from '../components/layout/Layout';
+
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Loader from '../components/ui/Loader';
@@ -35,7 +36,9 @@ export default function Webhooks() {
         const logsData = await fetchLogs(ordersData);
         setLogs(logsData);
       } catch {
-        setError('Failed to load webhook logs');
+        const msg = 'Failed to load webhook logs';
+        setError(msg);
+        toast.error(msg);
       } finally {
         setLoading(false);
       }
@@ -52,16 +55,18 @@ export default function Webhooks() {
 
       const logsData = await fetchLogs(orders);
       setLogs(logsData);
-
+      toast.success('Webhook retry queued');
     } catch {
-      setError('Retry failed');
+      const msg = 'Retry failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setRetrying(null);
     }
   };
 
   return (
-    <Layout>
+    <>
       <div className="space-y-6 animate-fade-in">
 
         {error && (
@@ -75,7 +80,7 @@ export default function Webhooks() {
             <div className="overflow-x-auto">
 
               {/* Header */}
-              <div className="px-6 py-5 border-b" style={{ borderColor: 'var(--border-color)' }}>
+              <div className="px-6 py-5 border-b border-border-color">
                 <h3 className="text-lg font-bold text-main tracking-tight">
                   Webhook Delivery Logs
                 </h3>
@@ -84,9 +89,9 @@ export default function Webhooks() {
                 </p>
               </div>
 
-              <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b" style={{ borderColor: 'var(--border-color)' }}>
+                  <tr className="border-b border-border-color">
                     {['Order', 'Event', 'Attempts', 'Status', 'Last Attempt', 'Actions'].map(h => (
                       <th key={h} className="text-xs font-semibold text-muted px-5 py-4 uppercase tracking-wider bg-surface-hover/50 first:pl-6 last:pr-6">
                         {h}
@@ -95,7 +100,7 @@ export default function Webhooks() {
                   </tr>
                 </thead>
 
-                <tbody className="divide-y" style={{ borderColor: 'var(--border-color)' }}>
+                <tbody className="divide-y divide-border-color">
                   {logs.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center text-muted text-sm font-medium py-16">
@@ -113,7 +118,7 @@ export default function Webhooks() {
                         </td>
 
                         <td className="px-5 py-4">
-                          <span className="text-[11px] font-bold text-primary px-2.5 py-1 rounded-md uppercase tracking-wider border" style={{ backgroundColor: 'var(--bg-color)', borderColor: 'var(--border-color)' }}>
+                          <span className="text-[11px] font-bold text-primary px-2.5 py-1 rounded-md uppercase tracking-wider border bg-bg-base border-border-color">
                             {log?.event_type}
                           </span>
                         </td>
@@ -165,6 +170,6 @@ export default function Webhooks() {
         </Card>
 
       </div>
-    </Layout>
+    </>
   );
 }

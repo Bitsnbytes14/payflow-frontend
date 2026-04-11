@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { listOrders } from '../api/orders';
 import { refundPayment } from '../api/payments';
-import Layout from '../components/layout/Layout';
+
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
@@ -25,7 +26,11 @@ export default function Orders() {
 
     listOrders({ limit: 100 })
       .then(res => setOrders(res.orders || []))
-      .catch(() => setError('Failed to load orders'))
+      .catch(() => {
+        const msg = 'Failed to load orders';
+        setError(msg);
+        toast.error(msg);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -35,9 +40,12 @@ export default function Orders() {
     setRefunding(orderId);
     try {
       await refundPayment(orderId);
+      toast.success('Successfully refunded order');
       load();
     } catch {
-      setError('Refund failed');
+      const msg = 'Refund failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setRefunding(null);
     }
@@ -61,7 +69,7 @@ export default function Orders() {
   });
 
   return (
-    <Layout>
+    <>
       <div className="space-y-6 animate-fade-in">
 
         {/* Error */}
@@ -79,7 +87,7 @@ export default function Orders() {
               placeholder="Search by ID or email..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="input-field surface-input w-full pl-10 pr-4 py-2.5"
+              className="bg-bg-base border border-border-color rounded-lg text-sm text-main transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 w-full pl-10 pr-4 py-2.5"
             />
           </div>
 
@@ -91,9 +99,8 @@ export default function Orders() {
                 className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${
                   filter === s
                     ? 'bg-primary border-primary text-white shadow-md'
-                    : 'bg-transparent border-surface text-muted hover:text-main hover:bg-surface-hover'
+                    : 'bg-transparent border-border-color text-muted hover:text-main hover:bg-surface-hover'
                 }`}
-                style={filter === s ? { backgroundColor: 'var(--primary)', borderColor: 'var(--primary)' } : { borderColor: 'var(--border-color)'}}
               >
                 {s}
               </button>
@@ -105,9 +112,9 @@ export default function Orders() {
         <Card className="p-0 overflow-hidden">
           {loading ? <Loader /> : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b" style={{ borderColor: 'var(--border-color)' }}>
+                  <tr className="border-b border-border-color">
                     {['Order ID', 'Customer', 'Amount', 'Method', 'Status', 'Date', 'Actions'].map(h => (
                       <th key={h} className="text-xs font-semibold text-muted px-5 py-4 uppercase tracking-wider bg-surface-hover/50 first:pl-6 last:pr-6">
                         {h}
@@ -116,7 +123,7 @@ export default function Orders() {
                   </tr>
                 </thead>
 
-                <tbody className="divide-y" style={{ borderColor: 'var(--border-color)' }}>
+                <tbody className="divide-y divide-border-color">
                   {filtered.length === 0 ? (
                     <tr>
                       <td colSpan={7} className="text-center text-muted text-sm font-medium py-16">
@@ -172,6 +179,6 @@ export default function Orders() {
         </Card>
 
       </div>
-    </Layout>
+    </>
   );
 }

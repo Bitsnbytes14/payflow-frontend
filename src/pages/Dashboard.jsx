@@ -4,7 +4,6 @@ import { listOrders } from '../api/orders';
 import StatsCard from '../components/dashboard/StatsCard';
 import RecentTransactions from '../components/dashboard/RecentTransactions';
 import PaymentChart from '../components/dashboard/PaymentChart';
-import Layout from '../components/layout/Layout';
 import Loader from '../components/ui/Loader';
 import { formatCurrency, getSuccessRate } from '../utils/formatters';
 
@@ -20,13 +19,13 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <Layout><Loader /></Layout>;
+  if (loading) return <div className="p-6 flex items-center justify-center min-h-[50vh]"><Loader /></div>;
 
   if (error) {
     return (
-      <Layout>
+      <div className="p-6">
         <p className="text-error text-center py-10 font-medium">{error}</p>
-      </Layout>
+      </div>
     );
   }
 
@@ -45,7 +44,7 @@ export default function Dashboard() {
   const failedCount = safeOrders.filter((o) => o.status === 'FAILED').length;
 
   return (
-    <Layout>
+    <>
       <div className="space-y-6 animate-fade-in">
         {/* Empty state */}
         {safeOrders.length === 0 && (
@@ -100,6 +99,6 @@ export default function Dashboard() {
         </div>
 
       </div>
-    </Layout>
+    </>
   );
 }
