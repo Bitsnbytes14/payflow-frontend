@@ -20,12 +20,16 @@ export default function Button({
   loading = false,
   fullWidth = false,
   className,
-  type = 'button', // ✅ allow override
+  type = 'button',
   ...props
 }) {
   return (
     <button
-      type={type} // ✅ critical fix
+      type={type} // ✅ important: allows submit to work
+      onClick={(e) => {
+        console.log("🔥 Button clicked", { type }); // 🧪 TEST LOG
+        if (props.onClick) props.onClick(e);
+      }}
       className={clsx(
         'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all border border-transparent outline-none disabled:opacity-50 disabled:cursor-not-allowed',
         variants[variant],
