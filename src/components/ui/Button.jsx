@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 
 const variants = {
-  primary: 'bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-lg hover:-translate-y-[1px]',
-  secondary: 'bg-surface text-main border border-border-color hover:bg-surface-hover hover:border-primary/50',
-  danger: 'bg-error-bg text-error border border-error/20 hover:bg-error/20',
-  ghost: 'bg-transparent text-muted hover:text-main hover:bg-surface',
+  primary: 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-md hover:shadow-lg hover:scale-[1.02] backdrop-blur-md',
+  secondary: 'bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-md',
+  danger: 'bg-error-bg text-error border border-error/20 hover:bg-error/20 backdrop-blur-md',
+  ghost: 'bg-transparent text-muted hover:text-white hover:bg-white/10 backdrop-blur-md',
 };
 
 const sizes = {
@@ -31,7 +31,7 @@ export default function Button({
         if (props.onClick) props.onClick(e);
       }}
       className={clsx(
-        'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all border border-transparent outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200 border border-transparent outline-none disabled:opacity-50 disabled:cursor-not-allowed',
         variants[variant],
         sizes[size],
         fullWidth && 'w-full',

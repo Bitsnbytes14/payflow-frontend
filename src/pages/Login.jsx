@@ -13,20 +13,20 @@ function InputField({ label, icon: Icon, type: baseType = 'text', placeholder, v
 
   return (
     <div className="mb-4">
-      <label className="block text-sm font-semibold text-muted mb-2">{label}</label>
-      <div className="relative">
-        <div className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors pointer-events-none ${focused ? 'text-primary' : 'text-muted'}`} style={{ transform: 'translateY(-50%)' }}>
+      <label className="block text-sm font-semibold text-gray-300 mb-2">{label}</label>
+      <div className={`relative bg-white/10 backdrop-blur-md border border-white/20 rounded-xl transition-all duration-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/30 ${focused ? 'scale-[1.01]' : ''}`}>
+        <div className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors pointer-events-none ${focused ? 'text-blue-400' : 'text-gray-400'}`} style={{ transform: 'translateY(-50%)' }}>
           <Icon size={16} />
         </div>
         <input
           type={type} placeholder={placeholder} value={value}
           onChange={onChange} autoComplete={autoComplete}
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          className={`bg-bg-base border border-border-color rounded-lg text-sm text-main transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 w-full pl-10 ${isPass ? 'pr-10' : 'pr-4'} py-3`}
+          className={`bg-transparent border-none rounded-xl text-sm text-white placeholder-gray-400 w-full pl-10 ${isPass ? 'pr-10' : 'pr-4'} py-3 focus:outline-none`}
         />
         {isPass && (
           <button type="button" onClick={() => setShow(s => !s)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-main bg-transparent border-none cursor-pointer p-0 flex"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white bg-transparent border-none cursor-pointer p-0 flex"
             style={{ transform: 'translateY(-50%)' }}>
             {show ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -78,7 +78,7 @@ export default function Login() {
           <p className="text-muted font-medium">Sign in to your PayFlow account</p>
         </div>
 
-        <div className="bg-surface border border-border-color rounded-xl p-8 shadow-xl">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl">
           {error && (
             <div className="flex items-center gap-2 mb-6 p-3 rounded-lg text-sm bg-error-bg text-error border border-error">
               <AlertCircle size={16} /> {error}
