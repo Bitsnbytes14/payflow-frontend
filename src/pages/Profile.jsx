@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { updateWebhook } from '../api/auth';
+import { updateWebhook, getApiKey, regenerateApiKey } from '../api/auth';
 
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { User, Webhook, AlertCircle, CheckCircle } from 'lucide-react';
+import { User, Webhook, AlertCircle, CheckCircle, Key, Copy, RefreshCw, Eye, EyeOff } from 'lucide-react';
 
 export default function Profile() {
   const { merchant } = useAuth();
@@ -15,11 +15,50 @@ export default function Profile() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  // API Key state
+  const [apiKey, setApiKey] = useState('');
+  const [keyVisible, setKeyVisible] = useState(false);
+  const [keyLoading, setKeyLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     if (merchant?.webhookUrl) {
       setWebhookUrl(merchant.webhookUrl);
     }
   }, [merchant]);
+
+  useEffect(() => {
+    getApiKey()
+      .then(res => setApiKey(res?.apiKey || ''))
+      .catch(() => setApiKey(''))
+      .finally(() => setKeyLoading(false));
+  }, []);
+
+  const maskKey = (key) => {
+    if (!key) return '—';
+    if (key.length <= 12) return '*'.repeat(key.length);
+    return key.slice(0, 8) + '*'.repeat(key.length - 8);
+  };
+
+  const handleCopyKey = async () => {
+    if (!apiKey) return;
+    await navigator.clipboard.writeText(apiKey);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleRegenerateKey = async () => {
+    if (!confirm('Are you sure? This will invalidate your current API key.')) return;
+    setKeyLoading(true);
+    try {
+      const res = await regenerateApiKey();
+      setApiKey(res?.apiKey || '');
+    } catch (err) {
+      setError('Failed to regenerate API key');
+    } finally {
+      setKeyLoading(false);
+    }
+  };
 
   const isValidUrl = (url) => {
     try {
@@ -96,6 +135,65 @@ export default function Profile() {
               </div>
             ))}
           </div>
+        </Card>
+
+        {/* API Key */}
+        <Card>
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="p-2 rounded-xl" style={{ backgroundColor: 'var(--bg-color)' }}>
+              <Key size={18} className="text-primary" />
+            </div>
+            <h3 className="text-lg font-bold text-main tracking-tight">
+              API Key
+            </h3>
+          </div>
+
+          <p className="text-sm font-medium text-muted mb-4 leading-relaxed">
+            Use this key to authenticate API requests. Keep it secure and never share it publicly.
+          </p>
+
+          {keyLoading ? (
+            <div className="animate-pulse h-12 bg-surface-hover rounded-lg" />
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 w-full">
+                <code className="flex-1 bg-bg-base border border-border-color rounded-lg px-4 py-3 text-sm font-mono text-main break-all">
+                  {keyVisible ? apiKey : maskKey(apiKey)}
+                </code>
+                <button
+                  onClick={() => setKeyVisible(!keyVisible)}
+                  className="p-3 rounded-lg border border-border-color text-muted hover:text-main hover:bg-surface-hover"
+                  title={keyVisible ? 'Hide' : 'Show'}
+                >
+                  {keyVisible ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+                <button
+                  onClick={handleCopyKey}
+                  className="p-3 rounded-lg border border-border-color text-muted hover:text-main hover:bg-surface-hover"
+                  title="Copy"
+                >
+                  {copied ? <CheckCircle size={16} className="text-success" /> : <Copy size={16} />}
+                </button>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  onClick={handleRegenerateKey}
+                  variant="danger"
+                  loading={keyLoading}
+                  fullWidth
+                  size="md"
+                >
+                  <RefreshCw size={16} className="mr-2" />
+                  Regenerate Key
+                </Button>
+              </div>
+
+              {copied && (
+                <p className="text-sm text-success font-medium">Copied to clipboard!</p>
+              )}
+            </div>
+          )}
         </Card>
 
         {/* Webhook settings */}

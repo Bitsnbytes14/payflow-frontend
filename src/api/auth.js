@@ -14,3 +14,11 @@ export const login = (data) =>
 // ✅ FIXED NAME
 export const updateWebhook = (webhookUrl) =>
   handle(api.patch('/auth/webhook', { webhookUrl }));
+
+// Get API key
+export const getApiKey = () =>
+  handle(api.get('/auth/api-key'));
+
+// Regenerate API key
+export const regenerateApiKey = () =>
+  handle(api.post('/auth/regenerate-api-key'));
