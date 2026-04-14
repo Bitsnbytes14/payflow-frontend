@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Zap, Shield, Activity, ArrowRight,
   CheckCircle, Clock, BarChart2, Lock,
+  Menu, X
 } from 'lucide-react';
 
 /* ─── tokens ─────────────────────────────── */
@@ -90,6 +91,37 @@ const btnSmGhost   = { ...btnGhost,   padding: '8px 18px', fontSize: 13 };
 export default function Landing() {
   const navigate = useNavigate();
   const [hov, setHov] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      setMobileMenuOpen(false);
+    }
+  };
+
+  const handleFooterLink = (label) => {
+    switch (label) {
+      case 'Privacy':
+        navigate('/privacy');
+        break;
+      case 'Terms':
+        navigate('/terms');
+        break;
+      case 'Status':
+        window.open('https://status.payflow.dev', '_blank');
+        break;
+      case 'GitHub':
+        window.open('https://github.com/Bitsnbytes14/payflow', '_blank');
+        break;
+      case 'Contact':
+        window.open('https://www.linkedin.com/in/mohammad-ahmad141004/', '_blank');
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div style={{ background: BG, color: '#e2e8f0', fontFamily: "'Inter', system-ui, sans-serif", minHeight: '100vh', overflowX: 'hidden', width: '100%' }}>
@@ -97,31 +129,70 @@ export default function Landing() {
       {/* ══ NAV ══════════════════════════════════════════ */}
       <nav style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0.9rem 3rem', borderBottom: `1px solid ${BORDER}`,
+        padding: '0.9rem 1.5rem', borderBottom: `1px solid ${BORDER}`,
         position: 'sticky', top: 0, zIndex: 100,
         background: 'rgba(8,14,26,0.9)', backdropFilter: 'blur(16px)',
         width: '100%',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>
           <div style={{ width: 34, height: 34, background: `linear-gradient(135deg,${A},#6366f1)`, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 18px rgba(14,165,233,0.4)` }}>
             <Zap size={16} color="#fff" fill="#fff" />
           </div>
-          <span style={{ fontWeight: 800, fontSize: 18, color: '#f8fafc', letterSpacing: '-0.02em' }}>PayFlow</span>
+          <span className="hidden md:block" style={{ fontWeight: 800, fontSize: 18, color: '#f8fafc', letterSpacing: '-0.02em' }}>PayFlow</span>
         </div>
 
-        <div style={{ display: 'flex', gap: '3rem' }}>
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex" style={{ gap: '3rem' }}>
           {NAV_LINKS.map(l => (
-            <span key={l} style={{ fontSize: 14, color: SUB, cursor: 'pointer', transition: 'color 0.2s', fontWeight: 500 }}
+            <span 
+              key={l} 
+              style={{ fontSize: 14, color: SUB, cursor: 'pointer', transition: 'color 0.2s', fontWeight: 500 }}
               onMouseEnter={e => e.target.style.color = '#f1f5f9'}
-              onMouseLeave={e => e.target.style.color = SUB}>{l}</span>
+              onMouseLeave={e => e.target.style.color = SUB}
+              onClick={() => scrollToSection(l.toLowerCase())}
+            >{l}</span>
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: 10 }}>
+        {/* Desktop Buttons */}
+        <div className="hidden md:flex" style={{ display: 'flex', gap: 10 }}>
           <button style={btnSmGhost}   onClick={() => navigate('/login')}>Sign In</button>
           <button style={btnSmPrimary} onClick={() => navigate('/register')}>Get Started</button>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button 
+          className="md:hidden" 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{ background: 'transparent', border: 'none', color: SUB, cursor: 'pointer', padding: 8 }}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden" style={{
+          position: 'absolute', top: '100%', left: 0, right: 0,
+          background: 'rgba(8,14,26,0.98)', backdropFilter: 'blur(16px)',
+          borderBottom: `1px solid ${BORDER}`, padding: '1rem',
+          zIndex: 99,
+        }}>
+          {NAV_LINKS.map(l => (
+            <div 
+              key={l}
+              onClick={() => scrollToSection(l.toLowerCase())}
+              style={{ padding: '0.75rem', fontSize: 15, color: SUB, cursor: 'pointer', borderBottom: `1px solid ${BORDER}` }}
+            >
+              {l}
+            </div>
+          ))}
+          <div style={{ display: 'flex', gap: 10, padding: '1rem 0.75rem' }}>
+            <button style={{ ...btnSmGhost, width: '100%' }} onClick={() => { navigate('/login'); setMobileMenuOpen(false); }}>Sign In</button>
+            <button style={{ ...btnSmPrimary, width: '100%' }} onClick={() => { navigate('/register'); setMobileMenuOpen(false); }}>Get Started</button>
+          </div>
+        </div>
+      )}
 
       {/* ══ HERO ══════════════════════════════════════════ */}
       <section style={{ position: 'relative', textAlign: 'center', padding: '7rem 2rem 6rem', overflow: 'hidden' }}>
@@ -233,6 +304,32 @@ export default function Landing() {
             </Fade>
           ))}
         </div>
+      </section>
+
+      {/* ══ PRICING (Coming Soon) ══════════════════════════════════════ */}
+      <section id="pricing" style={{ maxWidth: 1200, margin: '0 auto', padding: '6rem 2rem', textAlign: 'center' }}>
+        <Fade>
+          <p style={{ fontSize: 11, color: A, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, marginBottom: 14 }}>Pricing</p>
+          <h2 style={{ fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: '#f8fafc', margin: '0 0 1rem', letterSpacing: '-0.03em' }}>
+            Simple, transparent pricing
+          </h2>
+          <p style={{ fontSize: 16, color: SUB, maxWidth: 520, margin: '0 auto', lineHeight: 1.75 }}>
+            Free during beta. No setup fees, no hidden costs.
+          </p>
+        </Fade>
+      </section>
+
+      {/* ══ CHANGELOG (Coming Soon) ══════════════════════════════════════ */}
+      <section id="changelog" style={{ maxWidth: 1200, margin: '0 auto', padding: '6rem 2rem', textAlign: 'center', borderTop: `1px solid ${BORDER}` }}>
+        <Fade>
+          <p style={{ fontSize: 11, color: A, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, marginBottom: 14 }}>Changelog</p>
+          <h2 style={{ fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: '#f8fafc', margin: '0 0 1rem', letterSpacing: '-0.03em' }}>
+            What's New
+          </h2>
+          <p style={{ fontSize: 16, color: SUB, maxWidth: 520, margin: '0 auto', lineHeight: 1.75 }}>
+            Stay tuned for updates and new features.
+          </p>
+        </Fade>
       </section>
 
       {/* ══ DASHBOARD MOCK ════════════════════════════════ */}
@@ -367,18 +464,22 @@ export default function Landing() {
       </section>
 
       {/* ══ FOOTER ════════════════════════════════════════ */}
-      <footer style={{ borderTop: `1px solid ${BORDER}`, padding: '1.5rem 3rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', background: 'rgba(6,10,18,0.8)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+      <footer style={{ borderTop: `1px solid ${BORDER}`, padding: '1.5rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', background: 'rgba(6,10,18,0.8)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>
           <div style={{ width: 26, height: 26, background: `linear-gradient(135deg,${A},#6366f1)`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap size={12} color="#fff" fill="#fff" />
           </div>
           <span style={{ fontWeight: 800, fontSize: 15, color: '#f8fafc' }}>PayFlow</span>
         </div>
-        <div style={{ display: 'flex', gap: '2rem' }}>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {['Privacy', 'Terms', 'Status', 'GitHub', 'Contact'].map(l => (
-            <span key={l} style={{ fontSize: 13, color: MUTED, cursor: 'pointer', transition: 'color 0.2s' }}
+            <span 
+              key={l} 
+              style={{ fontSize: 13, color: MUTED, cursor: 'pointer', transition: 'color 0.2s' }}
               onMouseEnter={e => e.target.style.color = SUB}
-              onMouseLeave={e => e.target.style.color = MUTED}>{l}</span>
+              onMouseLeave={e => e.target.style.color = MUTED}
+              onClick={() => handleFooterLink(l)}
+            >{l}</span>
           ))}
         </div>
         <span style={{ fontSize: 12, color: MUTED }}>© 2026 PayFlow Inc.</span>
