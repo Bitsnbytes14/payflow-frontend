@@ -69,7 +69,7 @@ export default function Login() {
       <div className="absolute pointer-events-none" style={{ top: '-15%', left: '50%', transform: 'translateX(-50%)', width: '800px', height: '600px', background: 'radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 60%)' }} />
       <div className="absolute pointer-events-none" style={{ bottom: '-10%', right: '5%', width: '500px', height: '500px', background: 'radial-gradient(ellipse, rgba(16,185,129,0.1) 0%, transparent 65%)' }} />
 
-      <div className="w-full max-w-md relative z-10 animate-fade-in p-6">
+      <div className="w-full max-w-md relative z-10 animate-fade-in px-4 py-6 md:p-6">
         <div className="text-center mb-10">
           <div onClick={() => navigate('/')} className="inline-flex items-center justify-center rounded-2xl cursor-pointer shadow-glow mx-auto mb-6 transition-transform hover:scale-105" style={{ width: '56px', height: '56px', backgroundColor: 'var(--primary)' }}>
             <Zap size={28} className="text-white" />

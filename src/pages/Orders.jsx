@@ -91,7 +91,7 @@ export default function Orders() {
             />
           </div>
 
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap w-full">
             {STATUSES.map(s => (
               <button
                 key={s}

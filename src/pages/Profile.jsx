@@ -63,7 +63,7 @@ export default function Profile() {
 
   return (
     <>
-      <div className="max-w-lg space-y-6 animate-slide-up mt-4">
+      <div className="max-w-lg w-full mx-auto space-y-6 animate-slide-up mt-4 px-4 md:px-0">
 
         {/* Merchant info */}
         <Card>

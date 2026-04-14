@@ -87,7 +87,7 @@ export default function NewPayment() {
 
   return (
     <>
-      <div className="max-w-xl mx-auto space-y-6 animate-fade-in mt-6">
+      <div className="max-w-xl mx-auto space-y-6 animate-fade-in mt-4 px-4 md:px-0">
 
         <Card>
           <h2 className="text-main text-xl font-bold tracking-tight mb-6">

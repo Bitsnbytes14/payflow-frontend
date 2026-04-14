@@ -6,7 +6,7 @@ export default function Topbar({ title }) {
   const initial = merchant?.name?.[0]?.toUpperCase() || 'U';
 
   return (
-    <header className="flex items-center justify-between px-6 border-b border-border-color h-16 bg-surface sticky top-0 z-10">
+    <header className="flex items-center justify-between px-4 md:px-6 border-b border-border-color h-16 bg-surface sticky top-0 z-10">
       <h1 className="text-lg font-semibold text-white">
         {title || 'Dashboard'}
       </h1>

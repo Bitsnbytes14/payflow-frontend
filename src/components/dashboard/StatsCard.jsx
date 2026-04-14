@@ -31,7 +31,7 @@ export default function StatsCard({
         {/* Left */}
         <div>
           <p className="text-sm text-muted font-medium tracking-wide">{title}</p>
-          <p className="text-3xl font-bold text-main mt-2 tracking-tight">
+          <p className="text-2xl md:text-3xl font-bold text-main mt-2 tracking-tight">
             {formatValue(value)}
           </p>
           {subtitle && (
