@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, CreditCard, List,
-  Webhook, User, LogOut, Zap
+  Webhook, User, LogOut, Zap, X
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -13,12 +13,21 @@ const nav = [
   { to: '/profile',      icon: User,             label: 'Profile' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onClose }) {
   const { merchant, logout } = useAuth();
+
+  const handleNavClick = () => {
+    if (onClose) onClose();
+  };
+
+  const handleLogout = () => {
+    logout();
+    if (onClose) onClose();
+  };
 
   return (
     <aside
-      className="hidden md:flex flex-col bg-surface border-r border-border-color h-screen sticky top-0 w-[260px]"
+      className="flex flex-col bg-surface border-r border-border-color h-screen w-[260px]"
     >
       {/* Logo */}
       <div className="p-6 border-b flex items-center gap-3">
@@ -26,6 +35,15 @@ export default function Sidebar() {
           <Zap size={16} className="text-white" />
         </div>
         <span className="text-white font-bold text-lg tracking-tight">PayFlow</span>
+        {onClose && (
+          <button 
+            onClick={onClose}
+            className="ml-auto p-1 text-muted hover:text-main md:hidden"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        )}
       </div>
 
       {/* Merchant info */}
@@ -46,8 +64,9 @@ export default function Sidebar() {
             key={to}
             to={to}
             end={end}
+            onClick={handleNavClick}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              `flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-primary border border-primary text-white shadow-md'
                   : 'text-muted hover:text-white hover:bg-surface-hover border border-transparent'
@@ -63,8 +82,8 @@ export default function Sidebar() {
       {/* Logout */}
       <div className="p-4 border-t">
         <button
-          onClick={logout}
-          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-muted hover:text-error hover:bg-error-bg transition-colors"
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-3 py-3 w-full rounded-lg text-sm font-medium text-muted hover:text-error hover:bg-error-bg transition-colors"
         >
           <LogOut size={18} />
           Sign Out
