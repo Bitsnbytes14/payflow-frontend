@@ -403,7 +403,7 @@ export default function Landing() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: `1px solid ${BORDER}`, background: CARD2 }}>
               <div style={{ display: 'flex', gap: '1.5rem' }}>
                 <span style={{ fontSize: 13, color: A, borderBottom: `1.5px solid ${A}`, paddingBottom: 3, cursor: 'pointer', fontWeight: 600 }}>Create Payment</span>
-                <span style={{ fontSize: 13, color: MUTED, cursor: 'pointer' }}>List Transactions</span>
+                <span style={{ fontSize: 13, color: MUTED, cursor: 'not-allowed', opacity: 0.5 }} title="Coming soon">List Transactions</span>
               </div>
               <span style={{ fontSize: 11, color: MUTED, background: BG, padding: '3px 10px', borderRadius: 6, border: `1px solid ${BORDER}` }}>REST / JSON</span>
             </div>
