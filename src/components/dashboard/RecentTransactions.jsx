@@ -1,29 +1,33 @@
+import { useNavigate } from 'react-router-dom';
 import Badge from '../ui/Badge';
 import Card from '../ui/Card';
 import { formatCurrency, formatDate, truncateId } from '../../utils/formatters';
 
 export default function RecentTransactions({ orders = [] }) {
+  const navigate = useNavigate();
+
   return (
     <Card>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-5 md:mb-6">
         <h3 className="text-lg font-bold text-main tracking-tight">
           Recent Orders
         </h3>
         {orders.length > 0 && (
-          <button className="text-sm font-semibold text-primary hover:text-primary-hover transition-colors bg-transparent border-none cursor-pointer">
+          <button 
+            onClick={() => navigate('/orders')}
+            className="text-sm font-semibold text-primary hover:text-primary-hover transition-colors bg-transparent border-none cursor-pointer"
+          >
             View All
           </button>
         )}
       </div>
 
-      {/* Empty state */}
       {orders.length === 0 ? (
         <p className="text-muted text-sm text-center py-8">
           No orders yet. Create your first payment.
         </p>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           {orders.slice(0, 8).map((order) => {
             const id = order?.id || 'N/A';
             const date = order?.created_at
@@ -36,13 +40,12 @@ export default function RecentTransactions({ orders = [] }) {
             return (
               <div
                 key={id}
-                className="flex items-center justify-between py-3 px-4 rounded-xl transition-colors hover:bg-surface-hover"
+                className="flex items-center justify-between py-3 px-3 md:px-4 rounded-xl transition-colors hover:bg-surface-hover"
                 style={{ cursor: 'pointer' }}
               >
-                {/* Left */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 md:gap-4">
                   <div
-                    className="flex items-center justify-center text-xs font-bold text-muted uppercase rounded-lg w-9 h-9 bg-bg-base border border-border-color"
+                    className="flex items-center justify-center text-xs font-bold text-muted uppercase rounded-lg w-9 h-9 bg-bg-base border border-border-color/50"
                   >
                     {method[0]}
                   </div>
@@ -51,13 +54,12 @@ export default function RecentTransactions({ orders = [] }) {
                     <p className="text-sm tracking-tight font-semibold text-main">
                       #{truncateId(id)}
                     </p>
-                    <p className="text-xs text-muted mt-1 font-medium tracking-wide">
+                    <p className="text-xs text-muted mt-0.5 font-medium tracking-wide">
                       {date}
                     </p>
                   </div>
                 </div>
 
-                {/* Right */}
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-sm font-bold text-main">
                     {formatCurrency(amount, currency)}

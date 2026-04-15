@@ -49,16 +49,16 @@ export default function PaymentChart({ orders = [] }) {
 
   return (
     <Card>
-      <h3 className="text-lg font-bold text-main mb-6 tracking-tight">
+      <h3 className="text-lg font-bold text-main mb-5 md:mb-6 tracking-tight">
         Payment Volume
       </h3>
 
       {data.length === 0 ? (
-        <p className="text-muted text-sm text-center py-10">
+        <p className="text-muted text-sm text-center py-8 md:py-10">
           No payment data available yet.
         </p>
       ) : (
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={220}>
           <AreaChart data={data}>
             <defs>
               <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
@@ -71,14 +71,14 @@ export default function PaymentChart({ orders = [] }) {
 
             <XAxis
               dataKey="date"
-              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 11, fontWeight: 500 }}
               axisLine={false}
               tickLine={false}
               dy={10}
             />
 
             <YAxis
-              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 11, fontWeight: 500 }}
               axisLine={false}
               tickLine={false}
               dx={-10}

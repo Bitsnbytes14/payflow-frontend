@@ -91,14 +91,14 @@ export default function Orders() {
             />
           </div>
 
-          <div className="flex gap-2 flex-wrap w-full">
+          <div className="flex gap-1.5 md:gap-2 flex-wrap w-full">
             {STATUSES.map(s => (
               <button
                 key={s}
                 onClick={() => setFilter(s)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${
+                className={`px-3 py-2 md:px-3.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${
                   filter === s
-                    ? 'bg-primary border-primary text-white shadow-md'
+                    ? 'bg-primary border-primary text-white shadow-sm'
                     : 'bg-transparent border-border-color text-muted hover:text-main hover:bg-surface-hover'
                 }`}
               >
@@ -114,16 +114,16 @@ export default function Orders() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-border-color">
+                  <tr className="border-b border-border-color/50">
                     {['Order ID', 'Customer', 'Amount', 'Method', 'Status', 'Date', 'Actions'].map(h => (
-                      <th key={h} className="text-xs font-semibold text-muted px-5 py-4 uppercase tracking-wider bg-surface-hover/50 first:pl-6 last:pr-6">
+                      <th key={h} className="text-xs font-semibold text-muted px-4 md:px-5 py-4 uppercase tracking-wider bg-surface-hover/50 first:pl-5 last:pr-5">
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-border-color">
+                <tbody className="divide-y divide-border-color/50">
                   {filtered.length === 0 ? (
                     <tr>
                       <td colSpan={7} className="text-center text-muted text-sm font-medium py-16">
@@ -133,31 +133,31 @@ export default function Orders() {
                   ) : filtered.map(order => (
                     <tr key={order.id} className="transition-colors hover:bg-surface-hover">
 
-                      <td className="px-5 py-4 pl-6 font-mono text-xs font-semibold text-main">
+                      <td className="px-4 py-4 pl-5 font-mono text-xs font-semibold text-main">
                         #{truncateId(order.id)}
                       </td>
 
-                      <td className="px-5 py-4 text-sm font-medium text-muted">
+                      <td className="px-4 py-4 text-sm font-medium text-muted">
                         {order.customer_email || '—'}
                       </td>
 
-                      <td className="px-5 py-4 text-sm font-bold text-main">
+                      <td className="px-4 py-4 text-sm font-bold text-main">
                         {formatCurrency(order.amount, order.currency)}
                       </td>
 
-                      <td className="px-5 py-4 text-xs font-mono font-medium text-muted bg-surface-hover/20 rounded">
+                      <td className="px-4 py-4 text-xs font-mono font-medium text-muted">
                         {order.transactions?.[0]?.payment_method || '—'}
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-4 py-4">
                         <Badge status={order.status} />
                       </td>
 
-                      <td className="px-5 py-4 text-xs font-medium text-muted">
+                      <td className="px-4 py-4 text-xs font-medium text-muted">
                         {formatDate(order.created_at)}
                       </td>
 
-                      <td className="px-5 py-4 pr-6">
+                      <td className="px-4 py-4 pr-5">
                         {order.status?.toUpperCase() === 'SUCCESS' && (
                           <Button
                             size="sm"

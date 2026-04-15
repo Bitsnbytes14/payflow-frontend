@@ -28,7 +28,6 @@ export default function StatsCard({
   return (
     <Card hover className="transition-transform">
       <div className="flex items-start justify-between">
-        {/* Left */}
         <div>
           <p className="text-sm text-muted font-medium tracking-wide">{title}</p>
           <p className="text-2xl md:text-3xl font-bold text-main mt-2 tracking-tight">
@@ -50,7 +49,6 @@ export default function StatsCard({
           )}
         </div>
 
-        {/* Right Icon */}
         <div
           className="flex items-center justify-center rounded-xl"
           style={{
@@ -58,7 +56,6 @@ export default function StatsCard({
             height: '44px',
             backgroundColor: selectedColor.bg,
             color: selectedColor.color,
-            boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
           }}
         >
           {Icon && <Icon size={22} />}

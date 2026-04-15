@@ -87,10 +87,10 @@ export default function NewPayment() {
 
   return (
     <>
-      <div className="max-w-xl mx-auto space-y-6 animate-fade-in mt-4 px-4 md:px-0">
+      <div className="max-w-xl mx-auto space-y-5 md:space-y-6 animate-fade-in mt-2 md:mt-4 px-4 md:px-0">
 
         <Card>
-          <h2 className="text-main text-xl font-bold tracking-tight mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-main tracking-tight mb-6">
             Create Payment
           </h2>
 
@@ -125,10 +125,10 @@ export default function NewPayment() {
 
         {result && (
           <Card>
-            <h3 className="text-main text-lg font-bold tracking-tight mb-4">
+            <h3 className="text-lg md:text-xl font-bold text-main tracking-tight mb-4">
               Payment Result
             </h3>
-            <pre className="text-sm font-mono text-success bg-success-bg border border-success p-4 rounded-xl overflow-x-auto whitespace-pre-wrap">
+            <pre className="text-xs md:text-sm font-mono text-success bg-success-bg border border-success p-4 rounded-xl overflow-x-auto whitespace-pre-wrap">
               {JSON.stringify(result, null, 2)}
             </pre>
 

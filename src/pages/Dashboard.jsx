@@ -45,16 +45,14 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="space-y-6 animate-fade-in">
-        {/* Empty state */}
+      <div className="space-y-5 md:space-y-6 animate-fade-in">
         {safeOrders.length === 0 && (
           <p className="text-muted text-center py-10 font-medium">
-            No data yet. Create your first payment 🚀
+            No data yet. Create your first payment
           </p>
         )}
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           <StatsCard
             title="Total Volume"
             icon={TrendingUp}
@@ -88,8 +86,7 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Chart + Recent */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6">
           <div className="lg:col-span-2">
             <PaymentChart orders={safeOrders} />
           </div>

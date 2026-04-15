@@ -41,8 +41,8 @@ export default function Layout() {
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden pt-14 md:pt-0">
-        <Topbar />
-        <main className="flex-1 p-4 md:p-6 overflow-y-auto">
+        <Topbar onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
           <div className="max-w-6xl mx-auto w-full">
             <Outlet />
           </div>

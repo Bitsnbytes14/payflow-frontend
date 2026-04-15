@@ -12,11 +12,11 @@ export default function Input({
   const inputId = id || `input-${Math.random().toString(36).slice(2, 8)}`;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1.5">
       {label && (
         <label
           htmlFor={inputId}
-          className="text-sm font-medium text-muted block mb-1"
+          className="text-sm font-medium text-muted"
         >
           {label}
           {required && <span className="text-error ml-1">*</span>}
@@ -28,8 +28,8 @@ export default function Input({
         type={type}
         aria-invalid={!!error}
         className={clsx(
-          'bg-transparent border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-400 transition-all duration-200 w-full',
-          'focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30',
+          'bg-bg-base border border-border-color rounded-xl px-4 py-3 text-sm text-main placeholder-gray-500 transition-all duration-200 w-full',
+          'focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30',
           error && 'border-error ring-2 ring-error/20',
           className
         )}
@@ -37,7 +37,7 @@ export default function Input({
       />
 
       {error && (
-        <p className="text-xs text-error mt-1">
+        <p className="text-xs text-error">
           {error}
         </p>
       )}

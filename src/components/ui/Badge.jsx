@@ -20,7 +20,7 @@ export default function Badge({ status, children }) {
   return (
     <span
       className={clsx(
-        'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border',
+        'inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border',
         styles[normalized] || 'bg-surface-hover text-muted border-border-color'
       )}
     >

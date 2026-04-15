@@ -29,16 +29,15 @@ export default function Sidebar({ onClose }) {
     <aside
       className="flex flex-col bg-surface border-r border-border-color h-screen w-[260px]"
     >
-      {/* Logo */}
-      <div className="p-6 border-b flex items-center gap-3">
-        <div className="flex items-center justify-center rounded-lg bg-primary w-8 h-8">
-          <Zap size={16} className="text-white" />
+      <div className="p-5 md:p-6 border-b border-border-color/50 flex items-center gap-3">
+        <div className="flex items-center justify-center rounded-xl bg-primary w-9 h-9">
+          <Zap size={18} className="text-white" />
         </div>
         <span className="text-white font-bold text-lg tracking-tight">PayFlow</span>
         {onClose && (
           <button 
             onClick={onClose}
-            className="ml-auto p-1 text-muted hover:text-main md:hidden"
+            className="ml-auto p-2 text-muted hover:text-main rounded-lg hover:bg-surface-hover transition-colors"
             aria-label="Close menu"
           >
             <X size={20} />
@@ -46,8 +45,7 @@ export default function Sidebar({ onClose }) {
         )}
       </div>
 
-      {/* Merchant info */}
-      <div className="mx-4 mt-6 p-4 rounded-xl border border-border-color bg-bg-base">
+      <div className="mx-4 md:mx-5 mt-5 md:mt-6 p-4 rounded-2xl border border-border-color/50 bg-bg-base">
         <p className="text-xs text-muted mb-1 uppercase tracking-wider font-semibold">Account</p>
         <p className="text-sm font-medium text-main truncate">
           {merchant?.name || 'Guest'}
@@ -57,8 +55,7 @@ export default function Sidebar({ onClose }) {
         </p>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto mt-2">
+      <nav className="flex-1 px-3 md:px-4 py-5 md:py-6 space-y-1.5 md:space-y-2 overflow-y-auto mt-2">
         {nav.map(({ to, icon: Icon, label, end }) => (
           <NavLink
             key={to}
@@ -66,9 +63,9 @@ export default function Sidebar({ onClose }) {
             end={end}
             onClick={handleNavClick}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
+              `flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-primary border border-primary text-white shadow-md'
+                  ? 'bg-primary border border-primary text-white shadow-sm'
                   : 'text-muted hover:text-white hover:bg-surface-hover border border-transparent'
               }`
             }
@@ -79,11 +76,10 @@ export default function Sidebar({ onClose }) {
         ))}
       </nav>
 
-      {/* Logout */}
-      <div className="p-4 border-t">
+      <div className="p-3 md:p-4 border-t border-border-color/50">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-3 w-full rounded-lg text-sm font-medium text-muted hover:text-error hover:bg-error-bg transition-colors"
+          className="flex items-center gap-3 px-3.5 py-3 w-full rounded-xl text-sm font-medium text-muted hover:text-error hover:bg-error-bg transition-colors"
         >
           <LogOut size={18} />
           Sign Out

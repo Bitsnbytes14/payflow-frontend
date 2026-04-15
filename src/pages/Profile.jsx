@@ -102,17 +102,16 @@ export default function Profile() {
 
   return (
     <>
-      <div className="max-w-lg w-full mx-auto space-y-6 animate-slide-up mt-4 px-4 md:px-0">
+      <div className="max-w-lg w-full mx-auto space-y-5 md:space-y-6 animate-slide-up mt-2 md:mt-4 px-4 md:px-0">
 
-        {/* Merchant info */}
         <Card>
-          <div className="flex items-center gap-5 mb-8">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-3xl font-extrabold shadow-md" style={{ backgroundColor: 'var(--primary)' }}>
+          <div className="flex items-center gap-4 md:gap-5 mb-6 md:mb-8">
+            <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center text-white text-2xl md:text-3xl font-extrabold shadow-md" style={{ backgroundColor: 'var(--primary)' }}>
               {merchant?.name?.[0]?.toUpperCase() || 'U'}
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-main tracking-tight">
+              <h2 className="text-xl md:text-2xl font-bold text-main tracking-tight">
                 {merchant?.name || 'User'}
               </h2>
               <p className="text-sm font-medium text-muted mt-1">
@@ -121,13 +120,13 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="space-y-4 surface p-5 rounded-2xl shadow-sm">
+          <div className="space-y-4 p-4 md:p-5 rounded-2xl bg-bg-base border border-border-color/50">
             {[
               ['Merchant ID', <span className="font-mono text-xs font-semibold px-2 py-1 bg-surface-hover rounded">{merchant?.id || '—'}</span>],
               ['Email', <span className="font-medium">{merchant?.email || '—'}</span>],
               ['Account', <span className="text-success font-bold flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-success"></div> Active</span>],
             ].map(([label, val], i) => (
-              <div key={label} className={`flex justify-between items-center text-sm ${i !== 0 ? 'pt-4 border-t' : ''}`} style={{ borderColor: 'var(--border-color)' }}>
+              <div key={label} className={`flex justify-between items-center text-sm ${i !== 0 ? 'pt-4 border-t border-border-color/50' : ''}`}>
                 <span className="text-muted font-medium flex items-center gap-2">
                   <User size={14} className="text-muted" /> {label}
                 </span>
@@ -137,9 +136,8 @@ export default function Profile() {
           </div>
         </Card>
 
-        {/* API Key */}
         <Card>
-          <div className="flex items-center gap-2.5 mb-6">
+          <div className="flex items-center gap-2.5 mb-5 md:mb-6">
             <div className="p-2 rounded-xl" style={{ backgroundColor: 'var(--bg-color)' }}>
               <Key size={18} className="text-primary" />
             </div>
@@ -157,19 +155,19 @@ export default function Profile() {
           ) : (
             <div className="space-y-4">
               <div className="flex items-center gap-2 w-full">
-                <code className="flex-1 bg-bg-base border border-border-color rounded-lg px-4 py-3 text-sm font-mono text-main break-all">
+                <code className="flex-1 bg-bg-base border border-border-color rounded-xl px-4 py-3 text-sm font-mono text-main break-all">
                   {keyVisible ? apiKey : maskKey(apiKey)}
                 </code>
                 <button
                   onClick={() => setKeyVisible(!keyVisible)}
-                  className="p-3 rounded-lg border border-border-color text-muted hover:text-main hover:bg-surface-hover"
+                  className="p-3 rounded-xl border border-border-color text-muted hover:text-main hover:bg-surface-hover"
                   title={keyVisible ? 'Hide' : 'Show'}
                 >
                   {keyVisible ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
                 <button
                   onClick={handleCopyKey}
-                  className="p-3 rounded-lg border border-border-color text-muted hover:text-main hover:bg-surface-hover"
+                  className="p-3 rounded-xl border border-border-color text-muted hover:text-main hover:bg-surface-hover"
                   title="Copy"
                 >
                   {copied ? <CheckCircle size={16} className="text-success" /> : <Copy size={16} />}
@@ -196,9 +194,8 @@ export default function Profile() {
           )}
         </Card>
 
-        {/* Webhook settings */}
         <Card>
-          <div className="flex items-center gap-2.5 mb-6">
+          <div className="flex items-center gap-2.5 mb-5 md:mb-6">
             <div className="p-2 rounded-xl" style={{ backgroundColor: 'var(--bg-color)' }}>
               <Webhook size={18} className="text-primary" />
             </div>
@@ -207,18 +204,18 @@ export default function Profile() {
             </h3>
           </div>
 
-          <p className="text-sm font-medium text-muted mb-6 leading-relaxed">
+          <p className="text-sm font-medium text-muted mb-5 md:mb-6 leading-relaxed">
             PayFlow will POST payment events to this URL with exponential backoff retry. Ensure your endpoint can handle duplicate events.
           </p>
 
           {success && (
-            <div className="flex items-center gap-2.5 bg-success-bg border border-success text-success text-sm font-medium rounded-xl px-4 py-3 mb-6">
+            <div className="flex items-center gap-2.5 bg-success-bg border border-success text-success text-sm font-medium rounded-xl px-4 py-3 mb-5 md:mb-6">
               <CheckCircle size={18} /> Webhook URL updated successfully
             </div>
           )}
 
           {error && (
-            <div className="flex items-center gap-2.5 bg-error-bg border border-error text-error text-sm font-medium rounded-xl px-4 py-3 mb-6">
+            <div className="flex items-center gap-2.5 bg-error-bg border border-error text-error text-sm font-medium rounded-xl px-4 py-3 mb-5 md:mb-6">
               <AlertCircle size={18} /> {error}
             </div>
           )}

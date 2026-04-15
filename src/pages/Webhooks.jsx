@@ -79,8 +79,7 @@ export default function Webhooks() {
           {loading ? <Loader /> : (
             <div className="overflow-x-auto">
 
-              {/* Header */}
-              <div className="px-6 py-5 border-b border-border-color">
+              <div className="px-5 md:px-6 py-5 border-b border-border-color/50">
                 <h3 className="text-lg font-bold text-main tracking-tight">
                   Webhook Delivery Logs
                 </h3>
@@ -91,16 +90,16 @@ export default function Webhooks() {
 
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-border-color">
+                  <tr className="border-b border-border-color/50">
                     {['Order', 'Event', 'Attempts', 'Status', 'Last Attempt', 'Actions'].map(h => (
-                      <th key={h} className="text-xs font-semibold text-muted px-5 py-4 uppercase tracking-wider bg-surface-hover/50 first:pl-6 last:pr-6">
+                      <th key={h} className="text-xs font-semibold text-muted px-4 md:px-5 py-4 uppercase tracking-wider bg-surface-hover/50 first:pl-5 last:pr-5">
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-border-color">
+                <tbody className="divide-y divide-border-color/50">
                   {logs.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center text-muted text-sm font-medium py-16">
@@ -113,21 +112,21 @@ export default function Webhooks() {
                     return (
                       <tr key={log.id} className="transition-colors hover:bg-surface-hover">
 
-                        <td className="px-5 py-4 pl-6 font-mono text-xs font-semibold text-main">
+                        <td className="px-4 py-4 pl-5 font-mono text-xs font-semibold text-main">
                           #{truncateId(log?.order_id)}
                         </td>
 
-                        <td className="px-5 py-4">
-                          <span className="text-[11px] font-bold text-primary px-2.5 py-1 rounded-md uppercase tracking-wider border bg-bg-base border-border-color">
+                        <td className="px-4 py-4">
+                          <span className="text-[11px] font-bold text-primary px-2 py-1 rounded-md uppercase tracking-wider border bg-bg-base border-border-color">
                             {log?.event_type}
                           </span>
                         </td>
 
-                        <td className="px-5 py-4 text-sm font-medium text-muted">
+                        <td className="px-4 py-4 text-sm font-medium text-muted">
                           <span className="text-main font-semibold">{log?.attempts || 0}</span> / 5
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-4 py-4">
                           {delivered ? (
                             <span className="flex items-center gap-1.5 text-xs font-bold text-success">
                               <CheckCircle size={14} /> Delivered
@@ -139,13 +138,13 @@ export default function Webhooks() {
                           )}
                         </td>
 
-                        <td className="px-5 py-4 text-xs font-medium text-muted">
+                        <td className="px-4 py-4 text-xs font-medium text-muted">
                           {log?.last_attempted_at
                             ? formatDate(log.last_attempted_at)
                             : '—'}
                         </td>
 
-                        <td className="px-5 py-4 pr-6">
+                        <td className="px-4 py-4 pr-5">
                           {!delivered && (
                             <Button
                               size="sm"
